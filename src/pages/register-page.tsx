@@ -7,13 +7,16 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import YupPassword from "yup-password";
 YupPassword(yup); // extend yup
+
+import toast from "react-hot-toast";
+import { registerUser } from "../services/auth.service";
 
 function Copyright(props: any) {
   return (
@@ -34,6 +37,8 @@ function Copyright(props: any) {
 }
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+
   const schema = yup.object().shape({
     firstName: yup.string().required("ป้อนข้อมูลชื่อด้วย"),
     lastName: yup.string().required("ป้อนข้อมูลสกุลด้วย"),
@@ -57,9 +62,31 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    mode:"all"  // ไม่จำเป็นต้อง กด submit ก็ให้ขึ้น log error ได้
+    mode: "all", // ไม่จำเป็นต้อง กด submit ก็ให้ขึ้น log error ได้
   });
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = async (data: FormData) => {
+    console.log(data);
+    try {
+      const userCredential = await registerUser(
+        data.firstName,
+        data.lastName,
+        data.email,
+        data.password!
+      );
+
+      if (userCredential.user != null) {
+        toast.success("ลงทะเบียนสำเร็จ");
+        navigate("/");
+      }
+    } catch (error: any) {
+      //https://firebase.google.com/docs/reference/js/auth#autherrorcodes
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("มีผู้ใช้งานอีเมลล์นี้แล้วในระบบ");
+      } else {
+        toast.error(error.message);
+      }
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
