@@ -8,6 +8,7 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -59,11 +60,12 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "all", // ไม่จำเป็นต้อง กด submit ก็ให้ขึ้น log error ได้
   });
+
   const onSubmit = async (data: FormData) => {
     console.log(data);
     try {
@@ -151,14 +153,16 @@ export default function RegisterPage() {
               />
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            loading={isSubmitting}
+            loadingIndicator="กำลังลงทะเบียน..."
           >
             ลงทะเบียน
-          </Button>
+          </LoadingButton>
           <Grid container justifyContent="center">
             <Grid item>
               <Link component={RouterLink} to="/" variant="body2">
