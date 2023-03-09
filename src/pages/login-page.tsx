@@ -17,7 +17,7 @@ import YupPassword from "yup-password";
 YupPassword(yup); // extend yup
 
 import toast from "react-hot-toast";
-import { registerUser } from "../services/auth.service";
+import { login, registerUser } from "../services/auth.service";
 
 function Copyright(props: any) {
   return (
@@ -41,8 +41,6 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   const schema = yup.object().shape({
-    firstName: yup.string().required("ป้อนข้อมูลชื่อด้วย"),
-    lastName: yup.string().required("ป้อนข้อมูลสกุลด้วย"),
     email: yup
       .string()
       .required("ป้อนอีเมลลืด้วย")
@@ -69,23 +67,26 @@ export default function RegisterPage() {
   const onSubmit = async (data: FormData) => {
     console.log(data);
     try {
-      const userCredential = await registerUser(
-        data.firstName,
-        data.lastName,
-        data.email,
-        data.password!
-      );
+      const userCredential = await login(data.email, data.password!);
 
       if (userCredential.user != null) {
-        toast.success("ลงทะเบียนสำเร็จ");
-        navigate("/");
+        toast.success("ล็อกอินสำเร็จ");
+        navigate("/dashboard");
       }
     } catch (error: any) {
       //https://firebase.google.com/docs/reference/js/auth#autherrorcodes
-      if (error.code === "auth/email-already-in-use") {
-        toast.error("มีผู้ใช้งานอีเมลล์นี้แล้วในระบบ");
-      } else {
-        toast.error(error.message);
+      switch (error.code) {
+        case "auth/too-many-requests":
+          toast.error("คุณล็อกอินบ่อยเกินไป กรุณารอ 1นาที 30 วินาที");
+          break;
+
+        case "auth/wrong-password":
+          toast.error("รหัสผ่านหรืออีเมลล์ผิด");
+          break;
+
+        default:
+          toast.error(error.message);
+          break;
       }
     }
   };
@@ -104,7 +105,7 @@ export default function RegisterPage() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          ลงทะเบียนผู้ใช้ใหม่
+          Login
         </Typography>
         <Box
           component="form"
@@ -113,26 +114,6 @@ export default function RegisterPage() {
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                {...register("firstName")}
-                error={errors.firstName ? true : false}
-                helperText={errors.firstName && errors.firstName.message}
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Last Name"
-                {...register("lastName")}
-                error={errors.lastName ? true : false}
-                helperText={errors.lastName && errors.lastName.message}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -161,12 +142,12 @@ export default function RegisterPage() {
             loading={isSubmitting}
             loadingIndicator="กำลังลงทะเบียน..."
           >
-            ลงทะเบียน
+            Login
           </LoadingButton>
           <Grid container justifyContent="center">
             <Grid item>
-              <Link component={RouterLink} to="/login" variant="body2">
-                มี user แล้ว? Sign in
+              <Link component={RouterLink} to="/register" variant="body2">
+                ยังไม่มี ผู้ใช้งานหรือไม่? ลงทะเบียน
               </Link>
             </Grid>
           </Grid>
