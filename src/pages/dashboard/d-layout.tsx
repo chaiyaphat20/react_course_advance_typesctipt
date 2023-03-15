@@ -17,9 +17,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { Outlet } from "react-router-dom";
 
-import { mainListItems } from "./d-menu";
-import AccountMenu from './d-account-menu';
-
+import MainListItems from "./d-menu";
+import AccountMenu from "./d-account-menu";
 
 const drawerWidth: number = 240;
 
@@ -110,7 +109,7 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
-           <AccountMenu />
+            <AccountMenu />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -128,7 +127,7 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <MainListItems />
             <Divider sx={{ my: 1 }} />
           </List>
         </Drawer>
