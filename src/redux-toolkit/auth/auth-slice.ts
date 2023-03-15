@@ -21,11 +21,17 @@ export const authSlice = createSlice({
     //fulfilled คือ case สำเร็จไม่ error
     //rejected คือ case เข้า case error
     //pending คือ ระหว่าง เรียก api จะให้ทำอะไร ?
-    builder.addCase(getCurrentAccountThunk.fulfilled, (state, action) => {
+    builder.addCase(getCurrentAccountThunk.pending,(state,action)=>{
+			state.isAuthLoading = true
+		})
+		builder.addCase(getCurrentAccountThunk.fulfilled, (state, action) => {
       //fulfilledถ ถ้ามีข้อมูลออกมา
+			state.isAuthLoading = false
       state.account = action.payload; //payload คือ ข้อมูลที่ return มาจาก thunk
 			//ทุกครั้งที่ มีการ เรียก getCurrentAccount มันจะอีพเดต state account
-    });
+    }
+
+		);
   },
 });
 

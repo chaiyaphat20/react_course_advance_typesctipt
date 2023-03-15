@@ -18,6 +18,8 @@ YupPassword(yup); // extend yup
 
 import toast from "react-hot-toast";
 import { login, registerUser } from "../services/auth.service";
+import { useAppDispatch } from "../redux-toolkit/hooks";
+import { getCurrentAccountThunk } from "../redux-toolkit/auth/auth-thunk";
 
 function Copyright(props: any) {
   return (
@@ -39,6 +41,7 @@ function Copyright(props: any) {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const schema = yup.object().shape({
     email: yup
@@ -65,11 +68,10 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: FormData) => {
-    console.log(data);
     try {
       const userCredential = await login(data.email, data.password!);
-
       if (userCredential.user != null) {
+        dispatch(getCurrentAccountThunk(userCredential.user.uid));
         toast.success("ล็อกอินสำเร็จ");
         navigate("/dashboard");
       }
