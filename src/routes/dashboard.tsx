@@ -1,21 +1,22 @@
-import React from "react";
 import { RouteObject } from "react-router-dom";
+import AuthGuard from "../guards/auth-guard";
 import DHome from "../pages/dashboard/d-home";
 import DLayout from "../pages/dashboard/d-layout";
-import DLeave from '../pages/dashboard/d-leave';
-import DManageLeave from '../pages/dashboard/d-manage-leave';
+import DLeave from "../pages/dashboard/d-leave";
+import DManageLeave from "../pages/dashboard/d-manage-leave";
 
 const routeDashboard: RouteObject[] = [
   {
     path: "/dashboard",
-    element: <DLayout />,
+    // element: <DLayout />,
+    element: <AuthGuard />,
     children: [
       {
         path: "", //localhost:4000/dashboard
         element: <DHome />, //จะเอา DHome ไป วางที่ outlet ที่ DLayout
       },
       {
-        path: "request-for-leave",  // localhost:4000/dashboard/request-for-leave
+        path: "request-for-leave", // localhost:4000/dashboard/request-for-leave
         element: <DLeave />,
       },
       {
