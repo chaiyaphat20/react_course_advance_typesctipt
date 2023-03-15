@@ -9,7 +9,13 @@ type AuthState = {
 
 const initialState: AuthState = {
   isAuthLoading: true,
-  account: null,
+  account: {
+    userId: "1",
+    firstName: "chaiyaphat",
+    lastName: "supharak",
+    photoUrl: "",
+    role: "admin",
+  },
 };
 
 export const authSlice = createSlice({
@@ -18,6 +24,6 @@ export const authSlice = createSlice({
   reducers: {},
 });
 
-export const selectAuthState = (state: RootState) => state.authState;  //AuthState ถ้าอยากใช้ isAuthLoading , account ให้ใช้ selectAuthState
+export const selectAuthState = (state: RootState) => state.authState; //AuthState ถ้าอยากใช้ isAuthLoading , account ให้ใช้ selectAuthState
 
 export default authSlice.reducer;
