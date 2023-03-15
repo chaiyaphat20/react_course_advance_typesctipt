@@ -17,7 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { Outlet } from "react-router-dom";
 
-import { mainListItems, secondaryListItems } from "./d-menu";
+import { mainListItems } from "./d-menu";
 import AccountMenu from './d-account-menu';
 
 
@@ -130,7 +130,6 @@ function DashboardContent() {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
         <Box
