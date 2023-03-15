@@ -13,10 +13,14 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { logout } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../redux-toolkit/hooks";
+import { selectAuthState } from "../../redux-toolkit/auth/auth-slice";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+
+  const { account, isAuthLoading } = useAppSelector(selectAuthState);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,7 +38,9 @@ export default function AccountMenu() {
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 100 }}>Profile</Typography>
+        <Typography sx={{ minWidth: 100 }}>
+          สวัสดี {account?.firstName} {account?.lastName}
+        </Typography>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}

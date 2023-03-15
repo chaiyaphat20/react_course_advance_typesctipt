@@ -1,11 +1,13 @@
-import React from 'react'
+import { selectAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { useAppSelector } from "../../redux-toolkit/hooks";
 
 const DHome = () => {
-	return (
-		<div>
-			Home
-		</div>
-	)
-}
+  const { account, isAuthLoading } = useAppSelector(selectAuthState);
+  return (
+    <div>
+      ยินดีต้อนรับ: {account?.firstName} {account?.lastName}
+    </div>
+  );
+};
 
-export default DHome
+export default DHome;
