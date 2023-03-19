@@ -8,7 +8,11 @@ import { selectAuthState } from "../redux-toolkit/auth/auth-slice";
 import { getCurrentAccountThunk } from "../redux-toolkit/auth/auth-thunk";
 import { useAppDispatch, useAppSelector } from "../redux-toolkit/hooks";
 
-const AuthGuard = () => {
+type AuthGuardPropType = {
+  children: React.ReactNode;
+};
+
+const AuthGuard = ({ children }: AuthGuardPropType) => {
   const auth = getAuth(firebaseApp);
   const navigate = useNavigate();
   // const [account, setAccount] = useState<any>(null);
@@ -19,14 +23,14 @@ const AuthGuard = () => {
   useEffect(() => {
     //ดูว่า state user เปลี่ยนจังมั้ย  จะเรียกครั้งแรก แต่ไม่ observe ถ้า data user เปลี่ยน
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("onAuthStateChanged")
-      console.log(user)
+      console.log("onAuthStateChanged");
+      console.log(user);
       if (user) {
         //login
         dispatch(getCurrentAccountThunk(user.uid));
       } else {
         //ไม่ได้ login
-        // navigate("/login");
+        navigate("/login");
       }
     });
     return () => unsubscribe();
@@ -40,7 +44,7 @@ const AuthGuard = () => {
     return <Navigate to={"/login"} />;
   }
 
-  return <DLayout />;
+  return <>{ children }</>;
 };
 
 export default AuthGuard;

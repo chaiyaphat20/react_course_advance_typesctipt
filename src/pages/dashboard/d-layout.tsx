@@ -19,6 +19,7 @@ import { Outlet } from "react-router-dom";
 
 import MainListItems from "./d-menu";
 import AccountMenu from "./d-account-menu";
+import { withAuthGuard } from "../../hocs/with-auth-guard";
 
 const drawerWidth: number = 240;
 
@@ -72,7 +73,7 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-export default function DLayout() {
+function DLayout() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -152,3 +153,5 @@ export default function DLayout() {
     </ThemeProvider>
   );
 }
+
+export default withAuthGuard(DLayout);  //HOC คือ ต้อง login ก่อนถึงเข้าใช้งานได้

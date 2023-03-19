@@ -8,8 +8,12 @@ import DManageLeave from "../pages/dashboard/d-manage-leave";
 const routeDashboard: RouteObject[] = [
   {
     path: "/dashboard",
-    // element: <DLayout />,
-    element: <AuthGuard />,
+    element: <DLayout />,
+    // element: (
+    //   <AuthGuard>
+    //     <DLayout />
+    //   </AuthGuard>
+    // ),
     children: [
       {
         path: "", //localhost:4000/dashboard
