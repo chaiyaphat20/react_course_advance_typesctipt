@@ -1,11 +1,11 @@
-import { selectAuthState } from "../../redux-toolkit/auth/auth-slice";
-import { useAppSelector } from "../../redux-toolkit/hooks";
+import { useAccount } from "../../hooks/use-account";
 
 const DHome = () => {
-  const { account, isAuthLoading } = useAppSelector(selectAuthState);
+  const { account, isAuthLoading } = useAccount();
   return (
     <div>
-      ยินดีต้อนรับ: {account?.firstName} {account?.lastName}
+      ยินดีต้อนรับ: {account?.firstName} {account?.lastName} Role:{" "}
+      {account?.role}
     </div>
   );
 };

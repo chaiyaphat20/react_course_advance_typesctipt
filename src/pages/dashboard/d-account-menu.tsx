@@ -13,14 +13,13 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { logout } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../redux-toolkit/hooks";
-import { selectAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { useAccount } from '../../hooks/use-account';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
-  const { account, isAuthLoading } = useAppSelector(selectAuthState);
+  const { account, isAuthLoading } = useAccount();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,7 +36,6 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Typography sx={{ minWidth: 100 }}>Contact</Typography>
         <Typography sx={{ minWidth: 100 }}>
           สวัสดี {account?.firstName} {account?.lastName}
         </Typography>
@@ -50,7 +48,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }} src={account?.photoUrl}></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -90,23 +88,7 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
+          <Avatar  src={account?.photoUrl} sx={{ width: 32, height: 32 }}/> แก้ไขข้อมูลส่วนตัว
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
