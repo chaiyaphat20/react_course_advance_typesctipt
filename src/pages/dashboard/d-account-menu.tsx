@@ -13,13 +13,12 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { logout } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
-import { useAccount } from '../../hooks/use-account';
+import { useAccount } from "../../hooks/use-account";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
 
-  const { account, isAuthLoading } = useAccount();
+  const { account, handleLogout } = useAccount();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,10 +28,6 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/");
-  };
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -48,7 +43,10 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }} src={account?.photoUrl}></Avatar>
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              src={account?.photoUrl}
+            ></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -88,7 +86,8 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar  src={account?.photoUrl} sx={{ width: 32, height: 32 }}/> แก้ไขข้อมูลส่วนตัว
+          <Avatar src={account?.photoUrl} sx={{ width: 32, height: 32 }} />{" "}
+          แก้ไขข้อมูลส่วนตัว
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
