@@ -7,11 +7,11 @@ import { selectAuthState } from "../redux-toolkit/auth/auth-slice";
 import { getCurrentAccountThunk } from "../redux-toolkit/auth/auth-thunk";
 import { useAppDispatch, useAppSelector } from "../redux-toolkit/hooks";
 
-type AuthGuardPropType = {
+type AdminGuardPropType = {
   children: React.ReactNode;
 };
 
-const AuthGuard = ({ children }: AuthGuardPropType) => {
+const AdminGuard = ({ children }: AdminGuardPropType) => {
   const auth = getAuth(firebaseApp);
   const navigate = useNavigate();
   // const [account, setAccount] = useState<any>(null);
@@ -39,11 +39,11 @@ const AuthGuard = ({ children }: AuthGuardPropType) => {
     return <CircularProgress />;
   }
 
-  if (account == null) {
-    return <Navigate to={"/login"} />;
+  if (account?.role !=='admin') {
+    return <Navigate to="../permission-denied" />;  //../permission-denied ออกมาอีกระดับ ไม่อยู่ใน dashboard
   }
 
   return <>{ children }</>;
 };
 
-export default AuthGuard;
+export default AdminGuard;

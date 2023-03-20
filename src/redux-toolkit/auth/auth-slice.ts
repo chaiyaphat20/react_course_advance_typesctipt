@@ -21,10 +21,10 @@ export const authSlice = createSlice({
     //fulfilled คือ case สำเร็จไม่ error
     //rejected คือ case เข้า case error
     //pending คือ ระหว่าง เรียก api จะให้ทำอะไร ?
-    builder.addCase(getCurrentAccountThunk.pending, (state, action) => {
-      console.log("getCurrentAccountThunk.pending");
-      state.isAuthLoading = true;
-    });
+    // builder.addCase(getCurrentAccountThunk.pending, (state, action) => {
+    //   console.log("getCurrentAccountThunk.pending");
+    //   state.isAuthLoading = true;
+    // });
     builder.addCase(getCurrentAccountThunk.fulfilled, (state, action) => {
       console.log("getCurrentAccountThunk.fulfilled");
       //fulfilledถ ถ้ามีข้อมูลออกมา
