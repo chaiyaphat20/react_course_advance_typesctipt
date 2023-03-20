@@ -6,7 +6,13 @@ import {
   signOut,
   UserCredential,
 } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { firebaseApp } from "../configs/firebase";
 
 const auth = getAuth(firebaseApp);
@@ -80,4 +86,15 @@ export async function getCurrentAccount(
   } catch (error) {
     throw error;
   }
+}
+
+//update account
+export async function updateAccount(
+  userId: string,
+  acc: Account
+): Promise<void> {
+  await updateDoc(doc(db, "users", userId), {
+    firstName: acc.firstName,
+    lastName: acc.lastName,
+  }); //users คือ table หรือ path  และ userId คือ key
 }

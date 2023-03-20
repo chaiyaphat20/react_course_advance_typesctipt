@@ -1,5 +1,5 @@
 export interface Account {
-  userId: string;
+  userId?: string;
   firstName?: string;
   lastName?: string;
   photoUrl?: string;

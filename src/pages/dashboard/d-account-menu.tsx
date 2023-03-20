@@ -9,11 +9,13 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { useAccount } from "../../hooks/use-account";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const { account, handleLogout } = useAccount();
+  const navigate = useNavigate();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -21,6 +23,11 @@ export default function AccountMenu() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleEditProfile = () => {
+    navigate("./edit-profile"); //ข้อดีคือไม่ต้องพิมพ์ path เต็ม  พาทเต็ม   http://localhost:4000/dashboard/edit-profile
+    //แต่ถ้า ../edit-profile จะเป็น http://localhost:4000/edit-profile
   };
 
   return (
@@ -80,7 +87,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleEditProfile}>
           <Avatar src={account?.photoUrl} sx={{ width: 32, height: 32 }} />{" "}
           แก้ไขข้อมูลส่วนตัว
         </MenuItem>

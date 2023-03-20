@@ -4,6 +4,7 @@ import DHome from "../pages/dashboard/d-home";
 import DLayout from "../pages/dashboard/d-layout";
 import DLeave from "../pages/dashboard/d-leave";
 import DManageLeave from "../pages/dashboard/d-manage-leave";
+import DEditProfilePage from "../pages/dashboard/d-profile";
 import PermissionDenied from "../pages/dashboard/permission-denied";
 
 const routeDashboard: RouteObject[] = [
@@ -27,6 +28,10 @@ const routeDashboard: RouteObject[] = [
       {
         path: "manage-leave", //localhost:4000/dashboard/manage-leave
         element: <DManageLeave />,
+      },
+      {
+        path: "edit-profile", //localhost:4000/dashboard/manage-leave
+        element: <DEditProfilePage />,
       },
       {
         path: "permission-denied", //localhost:4000/dashboard/permission-denied
