@@ -25,6 +25,8 @@ import {
   updateAccountThunk,
 } from "../../redux-toolkit/auth/auth-thunk";
 import { Account } from "../../app-types/account.type";
+import { IconButton } from "@mui/material";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 export default function DEditProfilePage() {
   const navigate = useNavigate();
@@ -68,6 +70,8 @@ export default function DEditProfilePage() {
     }
   };
 
+  //////ดูวีดีโอ ที่ 16.17
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -81,6 +85,15 @@ export default function DEditProfilePage() {
         <Avatar sx={{ width: 64, height: 64 }} src={account?.photoUrl}>
           <LockOutlinedIcon />
         </Avatar>
+        <IconButton
+          size="large"
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+        >
+          <input hidden accept="image/*" type="file" />
+          <PhotoCamera fontSize='large'/>
+        </IconButton>
         <Typography component="h1" variant="h5">
           แก้ไขข้อมูลส่วนตัว
         </Typography>
